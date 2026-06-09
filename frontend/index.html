@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/png" href="icono-utn.png">
+		<title>TP - Comunicación de Datos</title>
+		<meta name="description" content="Galería de proyectos.">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<h3>Selecciona la imagen</h3>
+		<select id="selector">
+			<option value="foto1">Imagen 1</option>
+			<option value="foto2">Imagen 2</option>
+			<option value="foto3">Imagen 3</option>
+		</select>
+		<br>
+		<br>
+		<div class="contenedor">
+			<div class="imagen">
+				<img id="original">
+				<p>Imagen original (.png)</p>
+			</div>
+			<h1>→</h1>
+			<div class="imagen">
+				<img id="comprimida">
+				<p>Imagen comprimida (.jpg)</p>
+			</div>
+		</div>
+		<h2>Métricas de transmisión</h2>
+		<div class="metricas">
+			<div class="caja">
+				<div id="kB_Original">-</div>
+				Tamaño original
+			</div>
+			<div class="caja">
+				<div id="kB_Comprimido">-</div>
+				Tamaño comprimido
+			</div>
+			<div class="caja">
+				<div id="reduccion">-</div>
+				Reducción
+			</div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>
