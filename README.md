@@ -12,3 +12,35 @@ Trabajo práctico grupal para la materia Comunicación de Datos de 3er año de l
 | Santiago Ortiz      | [@santiago-sjo](https://github.com/santiago-sjo) | ortizsantiago3010@gmail.com  |
 | Martina Ulloa       | [@martiiU](https://github.com/martiiU)           | martinaflorulloa@gmail.com   |
 | Franco Kopach       | [@francokoop](https://github.com/francokoop)     | francokoop@gmail.com         |
+
+---
+
+## Estructura del Repositorio
+
+```
+postgrado-[equipo]/
+├── README.md                   ← Archivo actual
+├── CONTRIBUTING.md             ← Cómo trabajar: ramas, commits, PRs
+├── CHANGELOG.md                ← Historial de cambios por versión
+├── docker-compose.yml          ← Ambiente local unificado
+├── .env.example                ← Variables de entorno de referencia
+│
+├── frontend/
+│   ├── index.html              ← Página web pricnipal
+│   ├── script.js               ← Comunicación con el servidor
+│   ├── styles.css              ← Estilos visuales
+│   └── icono-utn.png           ← Icono de la UTN para pestaña de la página
+│
+└── imagenes/                   ← Imagenes para mostrar en la web
+```
+
+---
+
+## Dependencias
+Se debe instalar:
+
+PIL:<br/>
+pip install Pillow
+
+websockets:<br/>
+pip install websockets
