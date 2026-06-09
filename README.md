@@ -20,10 +20,7 @@ Trabajo práctico grupal para la materia Comunicación de Datos de 3er año de l
 ```
 postgrado-[equipo]/
 ├── README.md                   ← Archivo actual
-├── CONTRIBUTING.md             ← Cómo trabajar: ramas, commits, PRs
-├── CHANGELOG.md                ← Historial de cambios por versión
-├── docker-compose.yml          ← Ambiente local unificado
-├── .env.example                ← Variables de entorno de referencia
+├── main.py                     ← Servidor local en python, se debe ejecutar para que el sistema funcione
 │
 ├── frontend/
 │   ├── index.html              ← Página web pricnipal
