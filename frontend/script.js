@@ -37,6 +37,7 @@ function solicitarImagen(){
 
 //Agregar listener al selector de imagen para pedir al servidor tras selección
 document.getElementById("selector").addEventListener("change",solicitarImagen);
+document.getElementById("ruido").addEventListener("change",solicitarImagen);
 
 //Pedir imagenes apenas se pueda conectar (para que arranque mostrando imagen1 por defecto)
 ws.onopen = solicitarImagen;
