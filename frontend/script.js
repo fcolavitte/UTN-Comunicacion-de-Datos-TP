@@ -25,7 +25,12 @@ function solicitarImagen(){
             imagen:
             document.getElementById(
                 "selector"
-            ).value
+            ).value,
+
+            ruido:
+            document.getElementById(
+                "ruido"
+            ).checked
         })
     );
 }

@@ -28,7 +28,7 @@ def iniciar_http():
 
 
 # Compresión
-def comprimir_jpeg(path):
+def comprimir_jpeg(path, ruido):
     #Imagen original
     with open(path, "rb") as f:
         original_bytes = f.read()
@@ -57,7 +57,9 @@ def comprimir_jpeg(path):
     print()
     print()
     print(comprimido_b64[1010:1021])
-    comprimido_b64 = comprimido_b64[:1010] + "iigAooooAKo" + comprimido_b64[1021:] #Original en el gato: iigAooooAKK
+    if ruido:
+        comprimido_b64 = (comprimido_b64[:1010] + "iigAooooAKo" + comprimido_b64[1021:]) #Original en el gato: iigAooooAKK
+    
     print(comprimido_b64[1010:1021])
     #Fin ruido
 
@@ -86,13 +88,15 @@ async def handler(ws):
         
         #Imagen solicitada
         nombre = data["imagen"]
+        ruido = data["ruido"]
+
         path = os.path.join(
             "imagenes",
             f"{nombre}.png"
         )
         
         #Enviar imagenes y parametros de compresión
-        resultado = comprimir_jpeg(path)
+        resultado = comprimir_jpeg(path, ruido)
         await ws.send(
             json.dumps(resultado)
         )
