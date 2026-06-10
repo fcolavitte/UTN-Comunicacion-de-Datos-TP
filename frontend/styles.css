@@ -5,9 +5,10 @@ body{
     background-color: #fcfcfc;
 }
 
+header{
+}
 
 .titulo {
-    text-align: center;
     font-size: 40px;
     margin-bottom: 25px;
     border-bottom: 2px solid #e2e8f0;
