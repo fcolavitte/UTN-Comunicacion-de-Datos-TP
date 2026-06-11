@@ -5,9 +5,6 @@ body{
     background-color: #fcfcfc;
 }
 
-header{
-}
-
 .titulo {
     font-size: 40px;
     margin-bottom: 25px;
@@ -77,4 +74,9 @@ header{
     font-size: 25px;
     margin-bottom: 10px;
     color: #004cff;
+}
+
+#contenedorSelectorImagen{
+	display:flex;
+	justify-content: space-between;
 }

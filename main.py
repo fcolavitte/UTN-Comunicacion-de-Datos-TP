@@ -4,6 +4,8 @@ import base64
 import io
 import os
 import threading
+import random
+import string
 
 #Para menejo de imágenes
 from PIL import Image
@@ -28,7 +30,7 @@ def iniciar_http():
 
 
 # Compresión
-def comprimir_jpeg(path, ruido):
+def comprimir_jpeg(path, ruido, posicion, distribucionErrores, cantidadErrores):
     #Imagen original
     with open(path, "rb") as f:
         original_bytes = f.read()
@@ -53,14 +55,12 @@ def comprimir_jpeg(path, ruido):
 
     
     #Meter ruido en la comunicación (modificar bytes de la foto comprimida)
-    print(comprimido_b64)
     print()
-    print()
-    print(comprimido_b64[1010:1021])
     if ruido:
-        comprimido_b64 = (comprimido_b64[:1010] + "iigAooooAKo" + comprimido_b64[1021:]) #Original en el gato: iigAooooAKK
+        print("corrompiendo valores de imagen comprimida...")
+        comprimido_b64 = corromper(comprimido_b64, posicion, distribucionErrores, cantidadErrores)
     
-    print(comprimido_b64[1010:1021])
+    
     #Fin ruido
 
     tam_original = len(original_bytes)
@@ -78,6 +78,24 @@ def comprimir_jpeg(path, ruido):
         "formato": "JPEG"
     }
 
+def corromper(comprimido_b64, posicion, distribucionErrores, cantidadErrores):
+    posicionInicial = int(len(comprimido_b64)*posicion/100)
+    print(posicionInicial)
+    print(len(comprimido_b64))
+    pasoError = int((len(comprimido_b64)-posicionInicial)/cantidadErrores)
+    pasoError = int(distribucionErrores*(pasoError/100))
+    print(pasoError)
+    posicion = posicionInicial
+    caracteres = string.ascii_letters + string.digits
+    print(f"{"N° error":<12} | {"Posición":<12} | {"Caracter original":<20} | {"Caracter modificado":<20}")
+    for i in range(cantidadErrores):
+        if posicion>=1 and posicion<len(comprimido_b64):
+            caracterOriginal = comprimido_b64[posicion:posicion+1]
+            comprimido_b64 = comprimido_b64[:posicion] + random.choice(caracteres) + comprimido_b64[posicion+1:]
+            print(f"{i+1:<12} | {posicion:<12} | {caracterOriginal:<20} | {comprimido_b64[posicion:posicion+1]:<20}")
+            posicion = posicion + pasoError
+    return comprimido_b64
+
 
 
 # websockets
@@ -87,16 +105,34 @@ async def handler(ws):
         data = json.loads(mensaje)
         
         #Imagen solicitada
-        nombre = data["imagen"]
-        ruido = data["ruido"]
-
+        nombre              = data["imagen"]
+        ruido               = data["ruido"]
+        posicion            = data["posicion"]
+        distribucionErrores = data["distribucionErrores"]
+        cantidadErrores     = data["cantidadErrores"]
+        
+        print(f"cantidadErrores: {cantidadErrores}")
+        print(f"distribucionErrores: {distribucionErrores}")
+        print(f"posicion: {posicion}")
+        print(f"ruido: {ruido}")
+        print(f"nombre: {nombre}")
+        
+        try:
+            posicion = int(posicion)
+            distribucionErrores = int(distribucionErrores)
+            cantidadErrores = int(cantidadErrores)
+        except:
+            posicion = 20
+            distribucionErrores = 1
+            cantidadErrores = 10
+        
         path = os.path.join(
             "imagenes",
             f"{nombre}.png"
         )
         
         #Enviar imagenes y parametros de compresión
-        resultado = comprimir_jpeg(path, ruido)
+        resultado = comprimir_jpeg(path, ruido, posicion, distribucionErrores, cantidadErrores)
         await ws.send(
             json.dumps(resultado)
         )

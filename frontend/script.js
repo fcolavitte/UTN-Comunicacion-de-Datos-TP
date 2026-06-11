@@ -26,11 +26,22 @@ function solicitarImagen(){
             document.getElementById(
                 "selector"
             ).value,
-
             ruido:
             document.getElementById(
                 "ruido"
-            ).checked
+            ).checked,
+            posicion:
+            document.getElementById(
+                "posicion"
+            ).value,
+            distribucionErrores:
+            document.getElementById(
+                "distribucionErrores"
+            ).value,
+            cantidadErrores:
+            document.getElementById(
+                "cantidadErrores"
+            ).value
         })
     );
 }
@@ -38,6 +49,9 @@ function solicitarImagen(){
 //Agregar listener al selector de imagen para pedir al servidor tras selección
 document.getElementById("selector").addEventListener("change",solicitarImagen);
 document.getElementById("ruido").addEventListener("change",solicitarImagen);
+document.getElementById("posicion").addEventListener("change",solicitarImagen);
+document.getElementById("distribucionErrores").addEventListener("change",solicitarImagen);
+document.getElementById("cantidadErrores").addEventListener("change",solicitarImagen);
 
 //Pedir imagenes apenas se pueda conectar (para que arranque mostrando imagen1 por defecto)
 ws.onopen = solicitarImagen;
