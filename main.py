@@ -80,11 +80,11 @@ def comprimir_jpeg(path, ruido, posicion, distribucionErrores, cantidadErrores):
 
 def corromper(comprimido_b64, posicion, distribucionErrores, cantidadErrores):
     posicionInicial = int(len(comprimido_b64)*posicion/100)
-    print(posicionInicial)
-    print(len(comprimido_b64))
+    print(f"Posicion inicial del error: {posicionInicial}")
+    print(f"Long del comprimido en b64: {len(comprimido_b64)}")
     pasoError = int((len(comprimido_b64)-posicionInicial)/cantidadErrores)
     pasoError = int(distribucionErrores*(pasoError/100))
-    print(pasoError)
+    print(f"Paso de incerción de error: {pasoError}")
     posicion = posicionInicial
     caracteres = string.ascii_letters + string.digits
     print(f"{"N° error":<12} | {"Posición":<12} | {"Caracter original":<20} | {"Caracter modificado":<20}")
