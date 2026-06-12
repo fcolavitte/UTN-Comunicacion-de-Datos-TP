@@ -64,6 +64,15 @@
 					<option value="foto3">Imagen 3</option>
 				</select>
 			</div>
+
+			<div style="display:block">
+                <h2>Formato</h2>
+                <select id="formato">
+                    <option value="JPEG">JPEG</option>
+                    <option value="WEBP">WEBP</option>
+                    </select>
+            </div>
+
 			<fieldset>
 				<legend>Introducción de error</legend>
 				<input type="checkbox" id="ruido" checked>
@@ -97,7 +106,7 @@
 			<h2>→</h2>
 			<div class="imagen">
 				<img id="comprimida">
-				<p>Imagen comprimida (.jpeg)</p>
+				<p id="textoFormato">Imagen comprimida (.jpeg)</p>
 			</div>
 		</div>
 		<h2>Métricas de compresión</h2>

@@ -11,7 +11,9 @@ ws.onmessage = (event)=>{
 	
 	//Mostrar imagenes
     document.getElementById("original").src = "data:image/png;base64," + data.original;
-    document.getElementById("comprimida").src = "data:image/jpeg;base64," + data.comprimida;
+    document.getElementById("comprimida").src = "data:image/" + data.formato.toLowerCase() + ";base64," + data.comprimida;
+     
+    document.getElementById("textoFormato").innerHTML ="Imagen comprimida (." +data.formato.toLowerCase() + ")";
 	
 	//Mostrar metricas de compresión
     document.getElementById("kB_Original").innerHTML = data.tam_original + " kB";
@@ -41,6 +43,10 @@ function solicitarImagen(){
             cantidadErrores:
             document.getElementById(
                 "cantidadErrores"
+            ).value,
+            formato:
+            document.getElementById(
+                "formato"
             ).value
         })
     );
@@ -49,6 +55,7 @@ function solicitarImagen(){
 //Agregar listener al selector de imagen para pedir al servidor tras selección
 document.getElementById("selector").addEventListener("change",solicitarImagen);
 document.getElementById("ruido").addEventListener("change",solicitarImagen);
+document.getElementById("formato").addEventListener("change",solicitarImagen);
 document.getElementById("posicion").addEventListener("change",solicitarImagen);
 document.getElementById("distribucionErrores").addEventListener("change",solicitarImagen);
 document.getElementById("cantidadErrores").addEventListener("change",solicitarImagen);

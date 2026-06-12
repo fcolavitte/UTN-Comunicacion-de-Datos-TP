@@ -30,7 +30,7 @@ def iniciar_http():
 
 
 # Compresión
-def comprimir_jpeg(path, ruido, posicion, distribucionErrores, cantidadErrores):
+def comprimir_imagen(path, ruido, formato, posicion, distribucionErrores, cantidadErrores):
     #Imagen original
     with open(path, "rb") as f:
         original_bytes = f.read()
@@ -44,7 +44,7 @@ def comprimir_jpeg(path, ruido, posicion, distribucionErrores, cantidadErrores):
     buffer = io.BytesIO()
     imagen.convert("RGB").save(
         buffer,
-        format="JPEG",  #Cambiar "JPEG" acá para tipo de reducción, por defecto Pillow admite JPEG, cargar otras librerías
+        format=formato,
         quality=60
     )
     comprimido_bytes = buffer.getvalue()
@@ -75,7 +75,7 @@ def comprimir_jpeg(path, ruido, posicion, distribucionErrores, cantidadErrores):
         "tam_original": round(tam_original / 1024, 2),
         "tam_comprimido": round(tam_comprimido / 1024, 2),
         "reduccion": round(reduccion, 2),
-        "formato": "JPEG"
+        "formato": formato
     }
 
 def corromper(comprimido_b64, posicion, distribucionErrores, cantidadErrores):
@@ -107,6 +107,7 @@ async def handler(ws):
         #Imagen solicitada
         nombre              = data["imagen"]
         ruido               = data["ruido"]
+        formato             = data["formato"]
         posicion            = data["posicion"]
         distribucionErrores = data["distribucionErrores"]
         cantidadErrores     = data["cantidadErrores"]
@@ -132,7 +133,7 @@ async def handler(ws):
         )
         
         #Enviar imagenes y parametros de compresión
-        resultado = comprimir_jpeg(path, ruido, posicion, distribucionErrores, cantidadErrores)
+        resultado = comprimir_imagen(path, ruido, formato, posicion, distribucionErrores, cantidadErrores)
         await ws.send(
             json.dumps(resultado)
         )
