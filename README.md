@@ -41,3 +41,22 @@ pip install Pillow
 
 websockets:<br/>
 pip install websockets
+
+---
+
+## Instrucciones de uso
+
+1. Abrir una terminal en la carpeta del proyecto.
+2. Ejecutar el archivo principal con:
+
+```bash
+python main.py
+```
+
+3. Una vez iniciado el servidor, abrir el navegador y entrar a:
+
+```text
+http://localhost:8000
+```
+
+4. Dejar la terminal abierta mientras se usa la aplicación.
