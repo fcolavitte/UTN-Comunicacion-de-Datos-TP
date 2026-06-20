@@ -132,3 +132,70 @@ body{
     background:#0ea5e9;
     box-shadow: 0 10px 25px rgba(56,189,248,0.4);
 }
+
+
+
+
+.recuperacion{
+    margin-top:50px;
+}
+
+.metricas-error{
+    display:flex;
+    justify-content:space-around;
+}
+
+.contenedor-recuperacion{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.contenedor-recuperacion h2{
+    margin:0 20px;
+}
+
+.hamming-log{
+    max-height:400px;
+    overflow-y:auto;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+#tablaHamming{
+    width:100%;
+    border-collapse:collapse;
+}
+
+#tablaHamming th{
+    background:#38bdf8;
+    color:white;
+    padding:12px;
+    position:sticky;
+    top:0;
+}
+
+#tablaHamming td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+    text-align:center;
+}
+
+#tablaHamming tr:nth-child(even){
+    background:#f8fafc;
+}
+
+#similitud,
+#diferencia,
+#pixelesDistintos{
+    font-size:25px;
+    color:#004cff;
+    margin-bottom:10px;
+}
+
+hr{
+    margin-top:50px;
+    margin-bottom:40px;
+    border:none;
+    border-top:2px solid #e2e8f0;
+}

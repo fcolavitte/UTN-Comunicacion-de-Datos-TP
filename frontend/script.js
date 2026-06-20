@@ -18,7 +18,7 @@ ws.onmessage = (event)=>{
 	
 	//Mostrar imagenes
     document.getElementById("original").src = "data:image/png;base64," + data.original;
-    document.getElementById("comprimida").src = "data:image/" + data.formato.toLowerCase() + ";base64," + data.comprimida;
+    document.getElementById("comprimida").src = "data:image/" + data.formato.toLowerCase() + ";base64," + data.comprimida;//data.comprimida/recuperada
      
     document.getElementById("textoFormato").innerHTML ="Imagen comprimida (." +data.formato.toLowerCase() + ")";
 		
@@ -26,7 +26,35 @@ ws.onmessage = (event)=>{
     document.getElementById("kB_Original").innerHTML = data.tam_original + " kB";
     document.getElementById("kB_Comprimido").innerHTML = data.tam_comprimido + " kB";
     document.getElementById("reduccion").innerHTML = data.reduccion + " %";
+	
+	//Mostrar imagenes recuperadas
+    document.getElementById("corrompida").src = "data:image/png;base64," + data.comprimida;
+    document.getElementById("recuperada").src = "data:image/" + data.formato.toLowerCase() + ";base64," + data.recuperada;//data.comprimida/recuperada
+	
+	const tbody = document.querySelector("#tablaHamming tbody");
+	tbody.innerHTML = "";
+	for (let i = 0; i < data.bitsDeError.length; i++) {
+		agregarPasoHamming(data.posicionesErrores[i], data.tramasCorrompidaEnHamming[i], data.simbolosCorrompidos[i], data.bitsDeError[i], data.tramasOriginalEnHamming[i], data.simbolosRecuperados[i])
+	}
+	
 };
+
+function agregarPasoHamming(num_bloque, trama_recibida, simbolo_recibido, bit_error, trama_corregida, simbolo_corregido){
+    const tbody = document.querySelector("#tablaHamming tbody");
+
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${num_bloque}</td>
+        <td>${trama_recibida}</td>
+        <td>${simbolo_recibido}</td>
+        <td>${bit_error}</td>
+        <td>${trama_corregida}</td>
+        <td>${simbolo_corregido}</td>
+    `;
+
+    tbody.appendChild(fila);
+}
 
 function solicitarImagen(){
 	if(fileInput.files[0] && document.getElementById("selector").value == "otra"){
@@ -157,3 +185,6 @@ function enviarImagen(file){
     reader.readAsDataURL(file);
 	
 }
+
+
+

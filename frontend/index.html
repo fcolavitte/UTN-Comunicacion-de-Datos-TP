@@ -153,6 +153,72 @@
 				Reducción
 			</div>
 		</div>
+		<hr>
+
+<section class="recuperacion">
+
+    <h2>Parámetros de Error</h2>
+
+    <div class="metricas-error">
+        <div class="caja">
+            <div id="similitud">-</div>
+            Similitud
+        </div>
+
+        <div class="caja">
+            <div id="diferencia">-</div>
+            Diferencia
+        </div>
+
+        <div class="caja">
+            <div id="pixelesDistintos">-</div>
+            Píxeles modificados
+        </div>
+    </div>
+
+    <br><br>
+
+    <h2>Recuperación mediante Hamming</h2>
+
+    <div class="contenedor-recuperacion">
+        <div class="imagen">
+            <img id="corrompida">
+            <p>Imagen recibida (con errores)</p>
+        </div>
+
+        <h2>→</h2>
+
+        <div class="imagen">
+            <img id="recuperada">
+            <p>Imagen recuperada</p>
+        </div>
+    </div>
+
+    <br>
+	
+	<p>Los simbolos estan codificados en b64, con 6 bits de datos por simbolo y trama para envío de datos por método Hamming en paridad PAR.</p>
+
+    <div class="hamming-log">
+        <table id="tablaHamming">
+            <thead>
+                <tr>
+                    <th>Bloque N°</th>
+                    <th>Trama Recibida</th>
+                    <th>Símbolo Recibido</th>
+                    <th>Bit de error</th>
+                    <th>Trama Corregida</th>
+                    <th>Símbolo Corregido</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Paso a paso de la corrección</h2>
+
+</section>
 		<script src="script.js"></script>
 	</body>
 </html>
