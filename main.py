@@ -128,16 +128,23 @@ def corromper(comprimido_b64, posicion, distribucionErrores, cantidadErrores):
     pasoError = int(distribucionErrores*(pasoError/100))
     print(f"Paso de incerción de error: {pasoError}")
     posicion = posicionInicial
-    caracteres = string.ascii_letters + string.digits
+    #caracteres = string.ascii_letters + string.digits
     print(f"{"N° error":<12} | {"Posición":<12} | {"Caracter original":<20} | {"Caracter modificado":<20}")
     for i in range(cantidadErrores):
         if posicion>=1 and posicion<len(comprimido_b64):
             caracterOriginal = comprimido_b64[posicion:posicion+1]
-            comprimido_b64 = comprimido_b64[:posicion] + random.choice(caracteres) + comprimido_b64[posicion+1:]
+            comprimido_b64 = comprimido_b64[:posicion] + corromperBitEnSimbolo(caracterOriginal) + comprimido_b64[posicion+1:]
             print(f"{i+1:<12} | {posicion:<12} | {caracterOriginal:<20} | {comprimido_b64[posicion:posicion+1]:<20}")
             posicion = posicion + pasoError
     return comprimido_b64
 
+def corromperBitEnSimbolo(caracterOriginal):
+    BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    valor = BASE64_CHARS.index(caracterOriginal)
+    bit = random.randint(0, 5)
+    valorModificado = valor ^ (1 << bit)
+    caracterModificado = BASE64_CHARS[valorModificado]
+    return caracterModificado
 
 
 # websockets
