@@ -62,7 +62,36 @@
 					<option value="foto1">Imagen 1</option>
 					<option value="foto2">Imagen 2</option>
 					<option value="foto3">Imagen 3</option>
+					<option value="otra">otra...</option>
 				</select>
+				
+				
+				
+				
+				<div class="drop-zone" id="dropZone">
+					<input
+						type="file"
+						id="fileInput"
+						accept=".png,.jpeg"
+						hidden
+					>
+					<div class="upload-content">
+						<div class="upload-icon">
+							<img src="icono-imagen.png" style="width:80px;">
+						</div>
+						<button id="browseBtn">
+							Seleccionar archivo
+						</button>
+						<br/>
+						<span class="helper-text">
+							o arrastrá una imagen aquí
+						</span>
+						<div id="fileName" class="file-name">
+						</div>
+					</div>
+				</div>
+				
+				
 			</div>
 
 			<div style="display:block">

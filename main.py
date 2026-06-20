@@ -78,6 +78,48 @@ def comprimir_imagen(path, ruido, formato, posicion, distribucionErrores, cantid
         "formato": formato
     }
 
+def comprimir_imagen_externa(original_b64, ruido, formato, posicion, distribucionErrores, cantidadErrores):
+    #Imagen comprimida
+    img_bytes = base64.b64decode(original_b64)
+    imagen = Image.open(io.BytesIO(img_bytes))
+    buffer = io.BytesIO()
+    imagen.convert("RGB").save(
+        buffer,
+        format=formato,
+        quality=60
+    )
+    comprimido_bytes = buffer.getvalue()
+
+    comprimido_b64 = base64.b64encode(
+        comprimido_bytes
+    ).decode()
+
+    
+    #Meter ruido en la comunicación (modificar bytes de la foto comprimida)
+    print()
+    if ruido:
+        print("corrompiendo valores de imagen comprimida...")
+        comprimido_b64 = corromper(comprimido_b64, posicion, distribucionErrores, cantidadErrores)
+    
+    
+    #Fin ruido
+
+    tam_original = len(img_bytes)
+    tam_comprimido = len(comprimido_bytes)
+
+    reduccion = ( 100 - (tam_comprimido * 100 / tam_original) )
+    
+    #Enviar mensaje a la página web por websockets
+    return {
+        "original": original_b64,
+        "comprimida": comprimido_b64,
+        "tam_original": round(tam_original / 1024, 2),
+        "tam_comprimido": round(tam_comprimido / 1024, 2),
+        "reduccion": round(reduccion, 2),
+        "formato": formato
+    }
+    
+
 def corromper(comprimido_b64, posicion, distribucionErrores, cantidadErrores):
     posicionInicial = int(len(comprimido_b64)*posicion/100)
     print(f"Posicion inicial del error: {posicionInicial}")
@@ -105,39 +147,82 @@ async def handler(ws):
         data = json.loads(mensaje)
         
         #Imagen solicitada
-        nombre              = data["imagen"]
-        ruido               = data["ruido"]
-        formato             = data["formato"]
-        posicion            = data["posicion"]
-        distribucionErrores = data["distribucionErrores"]
-        cantidadErrores     = data["cantidadErrores"]
-        
-        print(f"cantidadErrores: {cantidadErrores}")
-        print(f"distribucionErrores: {distribucionErrores}")
-        print(f"posicion: {posicion}")
-        print(f"ruido: {ruido}")
-        print(f"nombre: {nombre}")
-        
-        try:
-            posicion = int(posicion)
-            distribucionErrores = int(distribucionErrores)
-            cantidadErrores = int(cantidadErrores)
-        except:
-            posicion = 20
-            distribucionErrores = 1
-            cantidadErrores = 10
-        
-        path = os.path.join(
-            "imagenes",
-            f"{nombre}.png"
-        )
-        
-        #Enviar imagenes y parametros de compresión
-        resultado = comprimir_imagen(path, ruido, formato, posicion, distribucionErrores, cantidadErrores)
-        await ws.send(
-            json.dumps(resultado)
-        )
-
+        if data["origen"] == "precargada":
+            nombre              = data["imagen"]
+            ruido               = data["ruido"]
+            formato             = data["formato"]
+            posicion            = data["posicion"]
+            distribucionErrores = data["distribucionErrores"]
+            cantidadErrores     = data["cantidadErrores"]
+            
+            print(f"cantidadErrores: {cantidadErrores}")
+            print(f"distribucionErrores: {distribucionErrores}")
+            print(f"posicion: {posicion}")
+            print(f"ruido: {ruido}")
+            print(f"nombre: {nombre}")
+            
+            try:
+                posicion = int(posicion)
+                distribucionErrores = int(distribucionErrores)
+                cantidadErrores = int(cantidadErrores)
+            except:
+                posicion = 20
+                distribucionErrores = 1
+                cantidadErrores = 10
+            
+            path = os.path.join(
+                "imagenes",
+                f"{nombre}.png"
+            )
+            
+            #Enviar imagenes y parametros de compresión
+            resultado = comprimir_imagen(path, ruido, formato, posicion, distribucionErrores, cantidadErrores)
+            await ws.send(
+                json.dumps(resultado)
+            )
+            
+        if data["origen"] == "draged":
+            imagen_b64          = data["imagen"]
+            ruido               = data["ruido"]
+            formato             = data["formato"]
+            posicion            = data["posicion"]
+            distribucionErrores = data["distribucionErrores"]
+            cantidadErrores     = data["cantidadErrores"]
+            
+            imagen_bytes = base64.b64decode(imagen_b64)
+            imagen = Image.open(
+                io.BytesIO(imagen_bytes)
+            )
+            
+            print(f"cantidadErrores: {cantidadErrores}")
+            print(f"distribucionErrores: {distribucionErrores}")
+            print(f"posicion: {posicion}")
+            print(f"ruido: {ruido}")
+            print(f"nombre: {nombre}")
+            
+            try:
+                posicion = int(posicion)
+                distribucionErrores = int(distribucionErrores)
+                cantidadErrores = int(cantidadErrores)
+            except:
+                posicion = 20
+                distribucionErrores = 1
+                cantidadErrores = 10
+            
+            #resultado = {
+            #    "original": imagen_b64,
+            #    "comprimida": imagen_b64,
+            #    "tam_original": 0,
+            #    "tam_comprimido": 0,
+            #    "reduccion": 0,
+            #    "formato": formato
+            #}
+            
+            resultado = comprimir_imagen_externa(imagen_b64, ruido, formato, posicion, distribucionErrores, cantidadErrores)
+            
+            await ws.send(
+                json.dumps(resultado)
+            )
 
 async def websocket_server():
     async with websockets.serve(handler, "localhost", 8765):

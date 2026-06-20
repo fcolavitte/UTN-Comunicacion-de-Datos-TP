@@ -80,3 +80,55 @@ body{
 	display:flex;
 	justify-content: space-between;
 }
+
+
+.drop-zone{
+	margin-top: 10px;
+	padding: 10px 0;
+    border: 3px dashed rgba(180,180,180,0.2);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    cursor: pointer;
+    text-align: center;
+	visibility: hidden;
+}
+
+.drop-zone:hover{
+    border-color: #38bdf8;
+    background: rgba(56,189,248,0.05);
+}
+
+.upload-icon{
+	transition: all 0.5s;
+}
+
+.drop-zone:hover .upload-icon{
+	transform: rotate(-9deg);
+}
+
+.drop-zone.dragover{
+    border-color: #22c55e;
+    background: rgba(34,197,94,0.08);
+    transform: scale(1.01);
+}
+
+#browseBtn, .browseBtn{
+    border:none;
+    padding:14px 28px;
+    border-radius:12px;
+    background:#38bdf8;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#browseBtn:hover, .browseBtn:hover{
+    transform:translateY(-2px);
+    background:#0ea5e9;
+    box-shadow: 0 10px 25px rgba(56,189,248,0.4);
+}
