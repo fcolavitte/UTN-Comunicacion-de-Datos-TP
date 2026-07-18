@@ -42,6 +42,9 @@ pip install Pillow
 websockets:<br/>
 pip install websockets
 
+imagehash:<br/>
+pip install ImageHash
+
 ---
 
 ## Instrucciones de uso
