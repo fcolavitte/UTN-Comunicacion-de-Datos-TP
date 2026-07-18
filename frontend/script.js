@@ -27,6 +27,9 @@ ws.onmessage = (event)=>{
     document.getElementById("kB_Comprimido").innerHTML = data.tam_comprimido + " kB";
     document.getElementById("reduccion").innerHTML = data.reduccion + " %";
 	
+	//Mostrar Parámetros de Error
+    document.getElementById("similitud").innerHTML = data.similitud;
+	
 	//Mostrar imagenes recuperadas
     document.getElementById("corrompida").src = "data:image/png;base64," + data.comprimida;
     document.getElementById("recuperada").src = "data:image/" + data.formato.toLowerCase() + ";base64," + data.recuperada;//data.comprimida/recuperada

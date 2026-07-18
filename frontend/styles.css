@@ -35,8 +35,7 @@ body {
 }
 
 .datos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: inline;
     gap: 1rem;
     font-size: 0.95rem;
 }
@@ -274,7 +273,8 @@ body {
 }
 
 .error-caja {
-    border-top: 4px solid #f87171;
+    border-top: 4px solid #38bdf8;
+	width: 31.5%;
 }
 
 .metrica-valor {
@@ -285,7 +285,7 @@ body {
 }
 
 .error-caja .metrica-valor {
-    color: #f87171;
+    color: #38bdf8;
 }
 
 .metrica-etiqueta {

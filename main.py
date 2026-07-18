@@ -9,6 +9,7 @@ import string
 
 #Para menejo de imágenes
 from PIL import Image
+import imagehash
 
 #Para comunicación con la página web
 import websockets
@@ -64,6 +65,31 @@ def comprimir_imagen(original_b64, comprimido_b64, original_bytes, comprimido_by
     reduccion = ( 100 - (tam_comprimido * 100 / tam_original) )
     
     
+    #Comparar imagenes por hash
+    img_bytes1 = base64.b64decode(original_b64)
+    
+    # Convertir los bytes a objetos de imagen Pillow
+    img1 = Image.open(io.BytesIO(img_bytes1))
+    
+    # Calcular el hash perceptual (pHash) para ambas imágenes
+    hash1 = imagehash.phash(img1)
+    
+    try:
+        img_bytes2 = base64.b64decode(comprimido_b64)
+        img2 = Image.open(io.BytesIO(img_bytes2))
+        hash2 = imagehash.phash(img2)
+    
+        distancia = hash1 - hash2
+        similitud = 100 - distancia * 100 / 64
+        similitud = str(similitud)+" %"
+    except Exception as e:
+        print("No se pudo calcular el hash, imagen demasiado corrompida.", e)
+        similitud = "No dimencionable por hash"
+    
+    
+    print(f"similitud: {similitud}")
+    
+    
     #Enviar mensaje a la página web por websockets
     return {
         "original": original_b64,
@@ -78,7 +104,8 @@ def comprimir_imagen(original_b64, comprimido_b64, original_bytes, comprimido_by
         "posicionesErrores": posicionesErrores,
         "simbolosRecuperados": simbolosRecuperados,
         "simbolosCorrompidos": simbolosCorrompidos,
-        "bitsDeError": bitsDeError
+        "bitsDeError": bitsDeError,
+        "similitud": similitud
     }
 
 def comprimir_imagen_local(path, ruido, formato, posicion, distribucionErrores, cantidadErrores):
