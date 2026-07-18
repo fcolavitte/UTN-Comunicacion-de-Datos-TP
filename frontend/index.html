@@ -1,224 +1,177 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="icon" type="image/png" href="icono-utn.png">
-		<title>TP - Comunicación de Datos</title>
-		<meta name="description" content="Galería de proyectos.">
-		<link rel="stylesheet" href="styles.css">
-		
-		<style>
-  .elemento-hover {
-    position: relative;
-    display: inline-block;
-    padding: 10px;
-    background-color: #ddd;
-    cursor: pointer;
-  }
-
-  /* Ocultamos el cuadro por defecto */
-  #texto-flotante {
-    display: none;
-    position: fixed;
-    background-color: #333;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    z-index: 1000;
-    pointer-events: none; /* Evita que el cuadro parpadee */
-  }
-
-  /* Mostramos el cuadro al pasar el mouse */
-  .elemento-hover:hover #texto-flotante {
-    display: block;
-  }
-</style>
-		
-	</head>
-	<body>
-		<header>
-			<h1 class="titulo">TP Comunicación de Datos</h1>
-			<div class="datos">
-				<p><strong>Carrera:</strong> Ingeniería en Sistemas de Información</p>
-				<p><strong>Comisión:</strong> S31</p>
-				<p><strong>Integrantes:</strong></p>
-				<ul>
-					<li>Facundo Colavitte</li>
-					<li>Santiago Ortiz</li>
-					<li>Martina Ulloa</li>
-					<li>Franco Kopach</li>
-				</ul>
-			</div>
-		</header>
-		
-		<br>
-		
-		<div id="contenedorSelectorImagen">
-			<div style="display:block">
-				<h2>Selecciona una imagen</h2>
-				<select id="selector">
-					<option value="foto1">Imagen 1</option>
-					<option value="foto2">Imagen 2</option>
-					<option value="foto3">Imagen 3</option>
-					<option value="otra">otra...</option>
-				</select>
-				
-				
-				
-				
-				<div class="drop-zone" id="dropZone">
-					<input
-						type="file"
-						id="fileInput"
-						accept=".png,.jpeg"
-						hidden
-					>
-					<div class="upload-content">
-						<div class="upload-icon">
-							<img src="icono-imagen.png" style="width:80px;">
-						</div>
-						<button id="browseBtn">
-							Seleccionar archivo
-						</button>
-						<br/>
-						<span class="helper-text">
-							o arrastrá una imagen aquí
-						</span>
-						<div id="fileName" class="file-name">
-						</div>
-					</div>
-				</div>
-				
-				
-			</div>
-
-			<div style="display:block">
-                <h2>Formato</h2>
-                <select id="formato">
-                    <option value="JPEG">JPEG</option>
-                    <option value="WEBP">WEBP</option>
-                    </select>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="icono-utn.png">
+    <title>TP - Comunicación de Datos</title>
+    <meta name="description" content="Galería de proyectos.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="main-header">
+            <h1 class="titulo">TP Comunicación de Datos</h1>
+            <div class="datos">
+                <p><strong>Carrera:</strong> Ingeniería en Sistemas de Información</p>
+                <p><strong>Comisión:</strong> S31</p>
+                <p class="integrantes-label"><strong>Integrantes:</strong></p>
+                <ul class="integrantes-list">
+                    <li>Facundo Colavitte</li>
+                    <li>Santiago Ortiz</li>
+                    <li>Martina Ulloa</li>
+                    <li>Franco Kopach</li>
+                </ul>
             </div>
+        </header>
 
-			<fieldset>
-				<legend>Introducción de error</legend>
-				<input type="checkbox" id="ruido" checked>
-				<label for="ruido">Corromper imagen</label>
-				<br>
-				<br>
-				
-				<label for="posicion">Posicion de inicio de ruido</label>
-				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="posicion">
-				</div>
-				
-				<label for="distribucionErrores">Grado de dispersión</label>
-				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="distribucionErrores">
-				</div>
-				
-				<label for="cantidadErrores">Cantidad de caracteres con error</label>
-				<input type="number" id="cantidadErrores" name="cantidad" min="1" max="10" step="1" value="5">
-			</fieldset>
-		</div>
-		
-		<br>
-		<br>
-		
-		<div class="contenedor">
-			<div class="imagen">
-				<img id="original">
-				<p>Imagen original (.png)</p>
-			</div>
-			<h2>→</h2>
-			<div class="imagen">
-				<img id="comprimida">
-				<p id="textoFormato">Imagen comprimida (.jpeg)</p>
-			</div>
-		</div>
-		<h2>Métricas de compresión</h2>
-		<div class="metricas">
-			<div class="caja">
-				<div id="kB_Original">-</div>
-				Tamaño original
-			</div>
-			<div class="caja">
-				<div id="kB_Comprimido">-</div>
-				Tamaño comprimido
-			</div>
-			<div class="caja">
-				<div id="reduccion">-</div>
-				Reducción
-			</div>
-		</div>
-		<hr>
+        <main>
+            <section class="panel-control">
+                <div class="control-group">
+                    <h2>Selecciona una imagen</h2>
+                    <select id="selector" class="custom-select">
+                        <option value="foto1">Imagen 1</option>
+                        <option value="foto2">Imagen 2</option>
+                        <option value="foto3">Imagen 3</option>
+                        <option value="otra">otra...</option>
+                    </select>
+                    
+                    <div class="drop-zone" id="dropZone">
+                        <input type="file" id="fileInput" accept=".png,.jpeg" hidden>
+                        <div class="upload-content">
+                            <div class="upload-icon">
+                                <img src="icono-imagen.png" alt="Icono subir" style="width:60px; opacity: 0.7;">
+                            </div>
+                            <button type="button" id="browseBtn">Seleccionar archivo</button>
+                            <span class="helper-text">o arrastrá una imagen aquí</span>
+                            <div id="fileName" class="file-name"></div>
+                        </div>
+                    </div>
+                </div>
 
-<section class="recuperacion">
+                <div class="control-group">
+                    <h2>Formato</h2>
+                    <select id="formato" class="custom-select">
+                        <option value="JPEG">JPEG</option>
+                        <option value="WEBP">WEBP</option>
+                    </select>
+                </div>
 
-    <h2>Parámetros de Error</h2>
+                <div class="config-card">
+                    <h3>Introducción de error</h3>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="ruido" checked>
+                        <label for="ruido">Corromper imagen</label>
+                    </div>
+                    
+                    <div class="slider-wrapper">
+                        <label for="posicion">Posición de inicio de ruido</label>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="posicion">
+                    </div>
+                    
+                    <div class="slider-wrapper">
+                        <label for="distribucionErrores">Grado de dispersión</label>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="distribucionErrores">
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="cantidadErrores">Cantidad de caracteres con error</label>
+                        <input type="number" id="cantidadErrores" name="cantidad" min="1" max="10" step="1" value="5" class="custom-number">
+                    </div>
+                </div>
+            </section>
+            
+            <section class="visualizador-imagenes">
+                <div class="contenedor-flex-imagenes">
+                    <div class="imagen-card">
+                        <div class="img-frame"><img id="original" alt="Original"></div>
+                        <p class="img-caption">Imagen original (.png)</p>
+                    </div>
+                    <div class="flecha-indicadora">→</div>
+                    <div class="imagen-card">
+                        <div class="img-frame"><img id="comprimida" alt="Comprimida"></div>
+                        <p id="textoFormato" class="img-caption">Imagen comprimida (.jpeg)</p>
+                    </div>
+                </div>
+            </section>
 
-    <div class="metricas-error">
-        <div class="caja">
-            <div id="similitud">-</div>
-            Similitud
-        </div>
+            <section class="section-metrics">
+                <h2>Métricas de compresión</h2>
+                <div class="metricas-grid">
+                    <div class="caja-metrica">
+                        <div id="kB_Original" class="metrica-valor">-</div>
+                        <div class="metrica-etiqueta">Tamaño original</div>
+                    </div>
+                    <div class="caja-metrica">
+                        <div id="kB_Comprimido" class="metrica-valor">-</div>
+                        <div class="metrica-etiqueta">Tamaño comprimido</div>
+                    </div>
+                    <div class="caja-metrica-destacada">
+                        <div id="reduccion" class="metrica-valor">-</div>
+                        <div class="metrica-etiqueta">Reducción</div>
+                    </div>
+                </div>
+            </section>
 
-        <div class="caja">
-            <div id="diferencia">-</div>
-            Diferencia
-        </div>
+            <hr class="section-divider">
 
-        <div class="caja">
-            <div id="pixelesDistintos">-</div>
-            Píxeles modificados
-        </div>
+            <section class="recuperacion">
+                <h2>Parámetros de Error</h2>
+                <div class="metricas-grid">
+                    <div class="caja-metrica error-caja">
+                        <div id="similitud" class="metrica-valor">-</div>
+                        <div class="metrica-etiqueta">Similitud</div>
+                    </div>
+                    <div class="caja-metrica error-caja">
+                        <div id="diferencia" class="metrica-valor">-</div>
+                        <div class="metrica-etiqueta">Diferencia</div>
+                    </div>
+                    <div class="caja-metrica error-caja">
+                        <div id="pixelesDistintos" class="metrica-valor">-</div>
+                        <div class="metrica-etiqueta">Píxeles modificados</div>
+                    </div>
+                </div>
+
+                <h2>Recuperación mediante Hamming</h2>
+                <div class="contenedor-flex-imagenes">
+                    <div class="imagen-card">
+                        <div class="img-frame error-frame"><img id="corrompida" alt="Corrompida"></div>
+                        <p class="img-caption">Imagen recibida (con errores)</p>
+                    </div>
+                    <div class="flecha-indicadora">→</div>
+                    <div class="imagen-card">
+                        <div class="img-frame success-frame"><img id="recuperada" alt="Recuperada"></div>
+                        <p class="img-caption">Imagen recuperada</p>
+                    </div>
+                </div>
+                
+                <div class="info-note">
+                    <p>Los símbolos están codificados en <strong>Base64</strong>, con 6 bits de datos por símbolo y trama para envío de datos por método Hamming en paridad <strong>PAR</strong>.</p>
+                </div>
+
+                <div class="hamming-log">
+                    <table id="tablaHamming">
+                        <thead>
+                            <tr>
+                                <th>Bloque N°</th>
+                                <th>Trama Recibida</th>
+                                <th>Símbolo Recibido</th>
+                                <th>Bit de error</th>
+                                <th>Trama Corregida</th>
+                                <th>Símbolo Corregido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Contenido dinámico mediante JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>Paso a paso de la corrección</h2>
+                <!-- Contenido dinámico paso a paso -->
+            </section>
+        </main>
     </div>
-
-    <br><br>
-
-    <h2>Recuperación mediante Hamming</h2>
-
-    <div class="contenedor-recuperacion">
-        <div class="imagen">
-            <img id="corrompida">
-            <p>Imagen recibida (con errores)</p>
-        </div>
-
-        <h2>→</h2>
-
-        <div class="imagen">
-            <img id="recuperada">
-            <p>Imagen recuperada</p>
-        </div>
-    </div>
-
-    <br>
-	
-	<p>Los simbolos estan codificados en b64, con 6 bits de datos por simbolo y trama para envío de datos por método Hamming en paridad PAR.</p>
-
-    <div class="hamming-log">
-        <table id="tablaHamming">
-            <thead>
-                <tr>
-                    <th>Bloque N°</th>
-                    <th>Trama Recibida</th>
-                    <th>Símbolo Recibido</th>
-                    <th>Bit de error</th>
-                    <th>Trama Corregida</th>
-                    <th>Símbolo Corregido</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
-    </div>
-
-    <h2>Paso a paso de la corrección</h2>
-
-</section>
-		<script src="script.js"></script>
-	</body>
+    <script src="script.js"></script>
+</body>
 </html>
